@@ -31,7 +31,7 @@ class ScrollContainer extends React.Component {
     this.context.scrollBehavior.registerElement(
       this.props.scrollKey,
       ReactDOM.findDOMNode(this),
-      this.shouldUpdateScroll,
+      this.shouldUpdateScroll
     );
 
     // Only keep around the current DOM node in development, as this is only
@@ -41,21 +41,26 @@ class ScrollContainer extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    warning(
-      nextProps.scrollKey === this.props.scrollKey,
-      '<ScrollContainer> does not support changing scrollKey.',
-    );
-  }
+  // componentWillReceiveProps(nextProps) {
+  //   warning(
+  //     nextProps.scrollKey === this.props.scrollKey,
+  //     '<ScrollContainer> does not support changing scrollKey.',
+  //   );
+  // }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
+    warning(
+      prevProps.scrollKey === this.props.scrollKey,
+      '<ScrollContainer> does not support changing scrollKey.'
+    );
+
     if (DEV) {
       const prevDomNode = this.domNode;
       this.domNode = ReactDOM.findDOMNode(this);
 
       warning(
         this.domNode === prevDomNode,
-        '<ScrollContainer> does not support changing DOM node.',
+        '<ScrollContainer> does not support changing DOM node.'
       );
     }
   }
@@ -74,7 +79,7 @@ class ScrollContainer extends React.Component {
     return shouldUpdateScroll.call(
       this.context.scrollBehavior.scrollBehavior,
       prevRouterProps,
-      routerProps,
+      routerProps
     );
   };
 
